@@ -1,0 +1,953 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#10090e">
+  <title>For Mai ♡</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --background: #10090e;
+      --rose: #bd2348;
+      --pink: #f3c3d0;
+      --gold: #d6b18b;
+      --muted: #c5aab4;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      min-height: 100svh;
+      overflow: hidden;
+      background:
+        radial-gradient(ellipse at 50% 40%,
+          rgba(119, 17, 48, .24), transparent 42%),
+        radial-gradient(ellipse at bottom,
+          #29111d, #10090e 65%);
+      color: #fff1f5;
+      font-family: "Poppins", sans-serif;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    .ambient-light {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background: radial-gradient(
+        circle at 50% 43%,
+        rgba(199, 36, 76, .11),
+        transparent 32%
+      );
+      animation: ambient 7s ease-in-out infinite alternate;
+    }
+
+    .scene {
+      position: relative;
+      min-height: 100vh;
+      min-height: 100svh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 22px 16px 34px;
+      isolation: isolate;
+    }
+
+    .container {
+      width: min(100%, 480px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Name */
+
+    .top-label {
+      font-size: 9px;
+      letter-spacing: 5px;
+      color: var(--gold);
+      text-transform: uppercase;
+      opacity: 0;
+      animation: appear 1.4s .2s forwards;
+    }
+
+    .name {
+      margin-top: 5px;
+      font-family: "Great Vibes", cursive;
+      font-size: clamp(66px, 13vw, 91px);
+      font-weight: 400;
+      line-height: 1.2;
+      color: #f7dbe4;
+      text-shadow:
+        0 0 12px rgba(245, 152, 178, .2),
+        0 0 40px rgba(185, 27, 69, .24);
+      opacity: 0;
+      animation: name-appear 1.8s .4s forwards;
+    }
+
+    .subtitle {
+      margin-top: 2px;
+      font-family: "Playfair Display", serif;
+      font-size: 12px;
+      font-style: italic;
+      letter-spacing: 1.5px;
+      color: var(--muted);
+      opacity: 0;
+      animation: appear 1.5s .8s forwards;
+    }
+
+    /* Rose */
+
+    .rose-stage {
+      position: relative;
+      width: min(350px, 91vw);
+      height: clamp(290px, 43vh, 390px);
+      margin-top: 1px;
+    }
+
+    .rose-glow {
+      position: absolute;
+      width: 220px;
+      height: 220px;
+      top: 5px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-radius: 50%;
+      background: rgba(175, 17, 52, .12);
+      filter: blur(36px);
+      animation: rose-glow 5s ease-in-out infinite alternate;
+    }
+
+    .rose {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+      filter: drop-shadow(0 18px 18px rgba(0, 0, 0, .22));
+    }
+
+    .petal {
+      transform-box: fill-box;
+      transform-origin: center bottom;
+      animation: petal-breathe 6s ease-in-out infinite alternate;
+    }
+
+    .petal:nth-child(2n) {
+      animation-delay: -2s;
+    }
+
+    .leaf {
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: leaf-sway 7s ease-in-out infinite alternate;
+    }
+
+    .heart-layer {
+      position: absolute;
+      inset: 0;
+      z-index: 4;
+      overflow: visible;
+      pointer-events: none;
+    }
+
+    /* Falling hearts */
+
+    .falling-heart {
+      position: absolute;
+      left: var(--x);
+      top: 20%;
+      width: var(--size);
+      height: var(--size);
+      opacity: 0;
+      animation: fall var(--duration) linear forwards;
+      filter: drop-shadow(0 0 8px rgba(219, 47, 88, .23));
+    }
+
+    .falling-heart svg {
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
+
+    .heart-name {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding-top: 4px;
+      font-size: clamp(9px, 2.5vw, 12px);
+      font-weight: 500;
+      color: #fff4f7;
+      letter-spacing: .2px;
+      text-shadow: 0 1px 5px rgba(75, 0, 20, .65);
+    }
+
+    /* Message section */
+
+    .message-section {
+      margin-top: -7px;
+      opacity: 0;
+      animation: appear 1.5s 1.3s forwards;
+    }
+
+    .message-caption {
+      font-family: "Playfair Display", serif;
+      font-style: italic;
+      color: #d8bdc7;
+      font-size: 14px;
+      letter-spacing: .2px;
+    }
+
+    .message-button {
+      margin-top: 17px;
+      min-width: 190px;
+      padding: 12px 23px;
+      border-radius: 50px;
+      border: 1px solid rgba(233, 180, 197, .4);
+      background: linear-gradient(
+        135deg,
+        rgba(137, 24, 54, .5),
+        rgba(67, 15, 34, .55)
+      );
+      color: #ffedf2;
+      font-size: 11px;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: .35s ease;
+      box-shadow: 0 6px 25px rgba(0, 0, 0, .15);
+    }
+
+    .message-button:hover {
+      border-color: #f3bdce;
+      background: rgba(167, 29, 65, .55);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(161, 21, 57, .2);
+    }
+
+    .footer {
+      position: fixed;
+      bottom: 13px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-size: 9px;
+      letter-spacing: 3px;
+      color: rgba(224, 190, 202, .4);
+      pointer-events: none;
+    }
+
+    /* Music control */
+
+    .music-button {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 13px;
+      border: 1px solid rgba(236, 192, 206, .2);
+      border-radius: 30px;
+      background: rgba(35, 13, 24, .7);
+      color: #f3d8e2;
+      font-size: 10px;
+      cursor: pointer;
+      backdrop-filter: blur(10px);
+    }
+
+    .music-icon {
+      font-size: 14px;
+    }
+
+    .music-button.playing .music-icon {
+      animation: music-pulse 1s ease-in-out infinite alternate;
+    }
+
+    /* Message modal */
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      z-index: 20;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 22px;
+      background: rgba(8, 4, 8, .82);
+      backdrop-filter: blur(12px);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity .4s, visibility .4s;
+    }
+
+    .modal.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal-card {
+      width: min(370px, 100%);
+      padding: 37px 25px 30px;
+      border-radius: 22px;
+      border: 1px solid rgba(228, 176, 194, .23);
+      background:
+        radial-gradient(ellipse at top,
+          #3a1424 0%, #1c0c14 75%);
+      box-shadow: 0 25px 100px rgba(0, 0, 0, .45);
+      transform: translateY(18px) scale(.97);
+      transition: transform .45s ease;
+      text-align: center;
+    }
+
+    .modal.show .modal-card {
+      transform: translateY(0) scale(1);
+    }
+
+    .modal-flower {
+      font-size: 33px;
+      margin-bottom: 9px;
+    }
+
+    .modal-title {
+      font-family: "Great Vibes", cursive;
+      font-size: 51px;
+      font-weight: 400;
+      color: #f8dbe5;
+    }
+
+    .modal-divider {
+      width: 65px;
+      height: 1px;
+      margin: 16px auto 20px;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        #d6ad8a,
+        transparent
+      );
+    }
+
+    .modal-message {
+      color: #e5ccd5;
+      font-family: "Playfair Display", serif;
+      font-size: 15px;
+      line-height: 2.1;
+      font-weight: 400;
+    }
+
+    .modal-signature {
+      margin-top: 21px;
+      font-family: "Great Vibes", cursive;
+      font-size: 31px;
+      color: #e9b8c9;
+    }
+
+    .close-button {
+      margin-top: 24px;
+      padding: 9px 25px;
+      border: 1px solid rgba(228, 176, 194, .28);
+      border-radius: 30px;
+      background: transparent;
+      color: #f6dfe7;
+      font-size: 11px;
+      cursor: pointer;
+      transition: .3s;
+    }
+
+    .close-button:hover {
+      background: rgba(171, 36, 73, .22);
+    }
+
+    /* Animations */
+
+    @keyframes appear {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes name-appear {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+        filter: blur(5px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0);
+      }
+    }
+
+    @keyframes petal-breathe {
+      from { transform: rotate(-1deg) scale(.995); }
+      to { transform: rotate(1deg) scale(1.01); }
+    }
+
+    @keyframes leaf-sway {
+      from { transform: rotate(-2deg); }
+      to { transform: rotate(3deg); }
+    }
+
+    @keyframes rose-glow {
+      from { opacity: .55; transform: translateX(-50%) scale(.9); }
+      to { opacity: 1; transform: translateX(-50%) scale(1.1); }
+    }
+
+    @keyframes ambient {
+      from { opacity: .6; }
+      to { opacity: 1; }
+    }
+
+    /* Slow, gentle falling motion */
+
+    @keyframes fall {
+      0% {
+        opacity: 0;
+        transform: translate3d(0, 0, 0) rotate(0deg) scale(.75);
+      }
+      8% {
+        opacity: .95;
+      }
+      45% {
+        transform:
+          translate3d(var(--drift), 175px, 0)
+          rotate(var(--rotation)) scale(.95);
+      }
+      85% {
+        opacity: .85;
+      }
+      100% {
+        opacity: 0;
+        transform:
+          translate3d(var(--drift-end), 490px, 0)
+          rotate(var(--rotation-end)) scale(.82);
+      }
+    }
+
+    @keyframes music-pulse {
+      from { transform: scale(.9); opacity: .7; }
+      to { transform: scale(1.12); opacity: 1; }
+    }
+
+    @media (max-height: 700px) {
+      .scene { padding-top: 12px; }
+      .top-label { font-size: 8px; }
+      .name { font-size: 65px; }
+      .rose-stage {
+        height: 37vh;
+        min-height: 240px;
+      }
+      .message-caption { font-size: 12px; }
+      .message-button { margin-top: 10px; padding: 9px 20px; }
+    }
+
+    @media (max-width: 400px) {
+      .rose-stage { width: 100vw; }
+      .music-button { top: 12px; right: 12px; }
+      .top-label { letter-spacing: 3px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="ambient-light"></div>
+
+  <!-- Background music: place song.mp3 beside index.html -->
+  <audio id="backgroundMusic" src="1.mp3" loop preload="auto"></audio>
+
+  <button class="music-button" id="musicButton" type="button">
+    <span class="music-icon">♫</span>
+    <span id="musicLabel">Play Music</span>
+  </button>
+
+  <main class="scene">
+    <div class="container">
+
+      <p class="top-label">A LITTLE SOMETHING FOR YOU</p>
+      <h1 class="name">Mai</h1>
+      <p class="subtitle">A rose, just for you</p>
+
+      <div class="rose-stage" id="roseStage">
+        <div class="rose-glow"></div>
+        <div class="heart-layer" id="heartLayer"></div>
+
+        <!-- Decorative rose illustration -->
+        <svg class="rose" viewBox="0 0 350 400"
+             xmlns="http://www.w3.org/2000/svg"
+             aria-label="A red rose" role="img">
+
+          <defs>
+            <linearGradient id="stem" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0" stop-color="#142c1d"/>
+              <stop offset=".45" stop-color="#47794b"/>
+              <stop offset="1" stop-color="#142b1c"/>
+            </linearGradient>
+
+            <linearGradient id="leaf" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#668e58"/>
+              <stop offset=".5" stop-color="#2c5936"/>
+              <stop offset="1" stop-color="#102719"/>
+            </linearGradient>
+
+            <linearGradient id="outerPetal" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#dc4260"/>
+              <stop offset=".45" stop-color="#a71335"/>
+              <stop offset="1" stop-color="#48071b"/>
+            </linearGradient>
+
+            <linearGradient id="brightPetal" x1="0" y1="0" x2=".8" y2="1">
+              <stop offset="0" stop-color="#ff879b"/>
+              <stop offset=".25" stop-color="#e83b5b"/>
+              <stop offset=".68" stop-color="#a90f32"/>
+              <stop offset="1" stop-color="#59081e"/>
+            </linearGradient>
+
+            <linearGradient id="darkPetal" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#f15a75"/>
+              <stop offset=".35" stop-color="#bd1b40"/>
+              <stop offset="1" stop-color="#61091f"/>
+            </linearGradient>
+
+            <radialGradient id="roseCenter">
+              <stop offset="0" stop-color="#5b061b"/>
+              <stop offset=".6" stop-color="#9c1030"/>
+              <stop offset="1" stop-color="#e33b5b"/>
+            </radialGradient>
+
+            <filter id="shadow" x="-40%" y="-40%" width="180%" height="180%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="3"/>
+              <feOffset dy="3"/>
+              <feComponentTransfer>
+                <feFuncA type="linear" slope=".3"/>
+              </feComponentTransfer>
+              <feMerge>
+                <feMergeNode/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+          </defs>
+
+          <!-- Stem -->
+          <path d="M176 176 C177 235 184 300 174 375"
+                fill="none" stroke="url(#stem)" stroke-width="7"
+                stroke-linecap="round"/>
+
+          <path d="M177 223 C179 276 177 324 174 365"
+                fill="none" stroke="#7ca36d" stroke-width="1.2"
+                opacity=".45"/>
+
+          <!-- Leaves -->
+          <g class="leaf">
+            <path d="M178 285
+                     C145 262 113 273 103 300
+                     C130 313 158 304 178 285Z"
+                  fill="url(#leaf)" stroke="#52794b" stroke-width="1"/>
+
+            <path d="M109 299 Q143 293 174 287"
+                  fill="none" stroke="#a2b97e" stroke-width="1"
+                  opacity=".65"/>
+          </g>
+
+          <g class="leaf">
+            <path d="M179 245
+                     C211 220 241 228 251 253
+                     C225 267 201 261 179 245Z"
+                  fill="url(#leaf)" stroke="#52794b" stroke-width="1"/>
+
+            <path d="M185 247 Q218 244 246 253"
+                  fill="none" stroke="#a2b97e" stroke-width="1"
+                  opacity=".6"/>
+          </g>
+
+          <g class="leaf">
+            <path d="M175 329
+                     C152 312 132 319 124 338
+                     C143 348 161 341 175 329Z"
+                  fill="url(#leaf)"/>
+
+            <path d="M130 337 L172 330"
+                  stroke="#a2b97e" stroke-width="1"
+                  opacity=".5" fill="none"/>
+          </g>
+
+          <!-- Outer petals -->
+          <g filter="url(#shadow)">
+            <path class="petal"
+              d="M176 186
+                 C136 194 101 169 105 133
+                 C109 96 139 73 166 87
+                 C189 99 196 128 184 153
+                 C179 165 177 176 176 186Z"
+              fill="url(#outerPetal)"/>
+
+            <path class="petal"
+              d="M176 186
+                 C195 149 225 123 218 92
+                 C212 65 186 54 163 69
+                 C139 85 145 115 161 138
+                 C169 151 174 169 176 186Z"
+              fill="url(#brightPetal)"/>
+
+            <path class="petal"
+              d="M177 184
+                 C207 159 239 163 254 135
+                 C268 108 252 80 229 79
+                 C204 78 192 101 197 124
+                 C201 148 187 169 177 184Z"
+              fill="url(#darkPetal)"/>
+
+            <path class="petal"
+              d="M176 186
+                 C147 169 111 185 108 214
+                 C105 241 134 255 156 239
+                 C173 227 179 207 176 186Z"
+              fill="url(#darkPetal)"/>
+
+            <path class="petal"
+              d="M177 186
+                 C201 166 239 178 246 208
+                 C253 235 230 251 209 239
+                 C191 229 182 208 177 186Z"
+              fill="url(#outerPetal)"/>
+
+            <!-- Curled inner petals -->
+            <path class="petal"
+              d="M175 183
+                 C156 158 153 131 170 116
+                 C188 100 207 117 201 136
+                 C197 153 183 164 175 183Z"
+              fill="url(#brightPetal)"/>
+
+            <path class="petal"
+              d="M177 183
+                 C191 149 220 143 230 161
+                 C240 181 205 195 177 183Z"
+              fill="url(#darkPetal)"/>
+
+            <path class="petal"
+              d="M175 183
+                 C160 163 170 143 186 143
+                 C203 143 205 162 175 183Z"
+              fill="url(#outerPetal)"/>
+
+            <path class="petal"
+              d="M176 182
+                 C176 162 196 151 207 162
+                 C217 173 195 185 176 182Z"
+              fill="url(#roseCenter)"/>
+          </g>
+
+          <!-- Sepals -->
+          <g fill="url(#leaf)">
+            <path d="M176 186 L155 207 L172 200Z"/>
+            <path d="M177 186 L197 208 L182 200Z"/>
+            <path d="M176 187 L174 211 L181 201Z"/>
+            <path d="M173 187 L145 196 L168 198Z"/>
+            <path d="M181 187 L208 197 L186 200Z"/>
+          </g>
+
+          <!-- Subtle petal highlights -->
+          <g fill="none" stroke="#ffb0bd"
+             stroke-linecap="round" opacity=".32">
+            <path d="M129 110 Q116 129 130 151" stroke-width="2"/>
+            <path d="M210 91 Q229 103 224 123" stroke-width="2"/>
+            <path d="M122 204 Q127 224 145 228" stroke-width="1.5"/>
+          </g>
+
+          <!-- Tiny dew drops -->
+          <g fill="#ffe5ed" opacity=".7">
+            <circle cx="134" cy="128" r="1.7"/>
+            <circle cx="226" cy="119" r="1.5"/>
+            <circle cx="137" cy="211" r="1.2"/>
+          </g>
+        </svg>
+      </div>
+
+      <section class="message-section">
+        <p class="message-caption">A little message, just for you.</p>
+
+        <button class="message-button" id="openMessage" type="button">
+          Open Your Message ♡
+        </button>
+      </section>
+    </div>
+  </main>
+
+  <footer class="footer">MADE WITH LOVE · FOR MAI</footer>
+
+  <!-- Romantic message -->
+  <div class="modal" id="messageModal"
+       role="dialog" aria-modal="true"
+       aria-labelledby="modalTitle">
+
+    <div class="modal-card">
+      <div class="modal-flower">🌹</div>
+
+      <h2 class="modal-title" id="modalTitle">Dear Mai</h2>
+      <div class="modal-divider"></div>
+
+      <p class="modal-message">
+       بصي يا ستي أنا كمصمم غرقان في جمال عينيكي وعاشق كل تفصيلة فيكي وكنت عايز أعملك وردة تكون شبهك بس اكتشفت إن مفيش وردة في الدنيا ممكن تنافس جمالك ولا في ألوان تقدر توصف اللي بشوفه في عينيكي ♥️
+أنا طول الوقت بحاول أطلع أحلى حاجة من إيدي بس المرة دي الموضوع مختلف عشان أنا مش بصمم لأي حد أنا بصمم لواحدة قلبي اختارها من وسط كل الناس وواحدة مجرد ما ببصلها بحس إن الدنيا كلها بتهدى وإن مفيش حاجة في الدنيا تستاهل عيني غير عينيها ♥️🫂
+ويمكن الوردة دي مجرد تصميم بالنسبالك بس بالنسبالي أنا حطيت فيها جزء من إحساسي ناحيتك ومن كل مرة ببصلك فيها وأتمنى أفضل أبصلك بنفس اللهفة دي طول عمري وأفضل كل يوم ألاقي فيكي حاجة جديدة تخليني أحبك أكتر من اليوم اللي قبله
+أنا مش عايز أعملك وردة وخلاص أنا نفسي كل ما تشوفيها تفتكري إن فيه قلب بيحبك بجد وإن فيه حد شايفك أجمل من كل حاجة عينيه شافتها وإن مهما الدنيا كان فيها حاجات حلوة هتفضلي إنتي الحاجة اللي قلبي اختارها ومش عايز من الدنيا غير إنه يفضل معاها بحبك ي ميويتي
+      </p>
+
+      <p class="modal-signature">With love, always ♡</p>
+
+      <button class="close-button" id="closeMessage" type="button">
+        Close Message
+      </button>
+    </div>
+  </div>
+
+  <script>
+    const heartLayer = document.getElementById("heartLayer");
+    const roseStage = document.getElementById("roseStage");
+
+    const audio = document.getElementById("backgroundMusic");
+    const musicButton = document.getElementById("musicButton");
+    const musicLabel = document.getElementById("musicLabel");
+
+    const modal = document.getElementById("messageModal");
+    const openMessage = document.getElementById("openMessage");
+    const closeMessage = document.getElementById("closeMessage");
+
+    const reduceMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    );
+
+    let heartInterval = null;
+    let particleInterval = null;
+
+    // Create slowly falling hearts with Mai's name.
+    function createHeart() {
+      if (reduceMotion.matches || document.hidden) return;
+
+      const heart = document.createElement("div");
+      heart.className = "falling-heart";
+
+      const size = 35 + Math.random() * 12;
+      const x = 32 + Math.random() * 36;
+      const duration = 10 + Math.random() * 5;
+
+      heart.style.setProperty("--size", `${size}px`);
+      heart.style.setProperty("--x", `${x}%`);
+      heart.style.setProperty("--duration", `${duration}s`);
+
+      heart.style.setProperty(
+        "--drift",
+        `${-35 + Math.random() * 70}px`
+      );
+
+      heart.style.setProperty(
+        "--drift-end",
+        `${-70 + Math.random() * 140}px`
+      );
+
+      heart.style.setProperty(
+        "--rotation",
+        `${-20 + Math.random() * 40}deg`
+      );
+
+      heart.style.setProperty(
+        "--rotation-end",
+        `${-60 + Math.random() * 120}deg`
+      );
+
+      heart.innerHTML = `
+        <svg viewBox="0 0 100 100" aria-hidden="true">
+          <defs>
+            <linearGradient id="heart-${Math.random().toString(36).slice(2)}"
+                            x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#ff9caf"/>
+              <stop offset="45%" stop-color="#dc3157"/>
+              <stop offset="100%" stop-color="#780c2a"/>
+            </linearGradient>
+          </defs>
+
+          <path d="M50 88
+                   C42 79 9 55 8 32
+                   C7 12 30 3 45 20
+                   L50 26
+                   L55 20
+                   C70 3 93 12 92 32
+                   C91 55 58 79 50 88Z"
+                fill="#c71f49"
+                stroke="#ffb4c6"
+                stroke-opacity=".55"
+                stroke-width="1.5"/>
+
+          <path d="M21 30 C21 20 30 17 37 23"
+                fill="none"
+                stroke="#fff"
+                stroke-opacity=".45"
+                stroke-width="3"
+                stroke-linecap="round"/>
+        </svg>
+
+        <span class="heart-name">Mai</span>
+      `;
+
+      heartLayer.appendChild(heart);
+
+      window.setTimeout(() => heart.remove(), duration * 1000 + 500);
+    }
+
+    // Small glowing particles around the rose.
+    function createParticle() {
+      if (reduceMotion.matches || document.hidden) return;
+
+      const particle = document.createElement("span");
+
+      const size = 2 + Math.random() * 2;
+      const x = 12 + Math.random() * 76;
+      const y = 12 + Math.random() * 70;
+      const duration = 4 + Math.random() * 4;
+
+      particle.style.cssText = `
+        position: absolute;
+        left: ${x}%;
+        top: ${y}%;
+        width: ${size}px;
+        height: ${size}px;
+        border-radius: 50%;
+        background: #f4c6d4;
+        box-shadow: 0 0 9px rgba(255, 174, 197, .6);
+        pointer-events: none;
+        opacity: 0;
+        animation: particleFloat ${duration}s ease-in-out forwards;
+      `;
+
+      roseStage.appendChild(particle);
+
+      window.setTimeout(() => particle.remove(), duration * 1000);
+    }
+
+    // Start and stop animations efficiently.
+    function startEffects() {
+      stopEffects();
+
+      if (reduceMotion.matches || document.hidden) return;
+
+      heartInterval = window.setInterval(createHeart, 1700);
+      particleInterval = window.setInterval(createParticle, 650);
+    }
+
+    function stopEffects() {
+      window.clearInterval(heartInterval);
+      window.clearInterval(particleInterval);
+    }
+
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) {
+        stopEffects();
+      } else {
+        startEffects();
+      }
+    });
+
+    reduceMotion.addEventListener("change", startEffects);
+
+    // Music: attempt autoplay, then offer a button if blocked.
+    async function playMusic() {
+      try {
+        await audio.play();
+        musicLabel.textContent = "Pause Music";
+        musicButton.classList.add("playing");
+      } catch (error) {
+        musicLabel.textContent = "Play Music";
+        musicButton.classList.remove("playing");
+      }
+    }
+
+    function pauseMusic() {
+      audio.pause();
+      musicLabel.textContent = "Play Music";
+      musicButton.classList.remove("playing");
+    }
+
+    musicButton.addEventListener("click", async () => {
+      if (audio.paused) {
+        await playMusic();
+      } else {
+        pauseMusic();
+      }
+    });
+
+    // Try autoplay when the page loads.
+    window.addEventListener("load", () => {
+      playMusic();
+      startEffects();
+    });
+
+    // Reveal the personal message.
+    openMessage.addEventListener("click", () => {
+      modal.classList.add("show");
+      closeMessage.focus();
+    });
+
+    function hideMessage() {
+      modal.classList.remove("show");
+      openMessage.focus();
+    }
+
+    closeMessage.addEventListener("click", hideMessage);
+
+    modal.addEventListener("click", (event) => {
+      if (event.target === modal) {
+        hideMessage();
+      }
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && modal.classList.contains("show")) {
+        hideMessage();
+      }
+    });
+  </script>
+
+  <style>
+    @keyframes particleFloat {
+      0% {
+        opacity: 0;
+        transform: translateY(12px) scale(.6);
+      }
+      50% {
+        opacity: .7;
+        transform: translateY(-12px) scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(-30px) scale(.7);
+      }
+    }
+  </style>
+</body>
+</html>
